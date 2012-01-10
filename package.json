@@ -1,0 +1,15 @@
+{
+    "name": "errors",
+    "version": "0.0.1",
+    "author": "Allan Boyd <millionyearsold@gmail.com>",
+    "description": "Utility that provides formatting and highlight options for errors and their stack trace",
+    "scripts": {
+        "test": "nodeunit test"
+    },
+    "devDependencies": {
+        "should": ">= 0.4.2"
+    },
+    "engine": {
+        "node": ">= 0.6.6"
+    }
+}
