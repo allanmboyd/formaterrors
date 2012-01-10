@@ -1,13 +1,22 @@
 {
-    "name": "errors",
-    "version": "0.0.1",
+    "name": "formatErrors",
+    "version": "0.0.2",
     "author": "Allan Boyd <millionyearsold@gmail.com>",
     "description": "Utility that provides formatting and highlight options for errors and their stack trace",
+    "keywords": "errors, logging, testing, test, log",
+    "bugs": { "url" : "http://github.com/allanmboyd/formatErrors/issues" },
+    "main": "lib/formatErrors.js",
+    "directories": {"lib": "./lib"},
+    "repository" : {
+        "type": "git",
+        "url": "http://github.com/allanmboyd/formatErrors.git"
+    },
     "scripts": {
         "test": "nodeunit test"
     },
     "devDependencies": {
-        "should": ">= 0.4.2"
+        "should": ">= 0.4.2",
+        "nodeunit": ">= 0.6.4"
     },
     "engine": {
         "node": ">= 0.6.6"

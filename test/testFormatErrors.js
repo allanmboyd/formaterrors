@@ -103,6 +103,22 @@ exports.testStackHighlight = function (test) {
     }
 };
 
+exports.testStackFilterNoFilters = function (test) {
+    try {
+        throw new Error("an error");
+    } catch (error) {
+        var formatted = formatErrors.stackFilter(error.stack, null, true);
+        var lines = formatted.split("\n");
+        lines.length.should.equal(2);
+        formatted = formatErrors.stackFilter(error.stack, null, false);
+        lines = formatted.split("\n");
+        lines.length.should.be.above(10);
+        formatted.should.equal(error.stack);
+
+        test.done();
+    }
+};
+
 exports.testStackFormatChaining = function (test) {
     try {
         var assertion = function() {
@@ -112,7 +128,7 @@ exports.testStackFormatChaining = function (test) {
     } catch (error) {
         var formatted = formatErrors.stackHighlight(
             formatErrors.stackHighlight(
-                formatErrors.stackRange(error.stack, 2), ["testFormatErrors"], [formatErrors.styles.BOLD]
+                formatErrors.stackRange(error.stack, 2), ["testFormatErrors"], [formatErrors.styles.BOLD], true
             ), ["Error:"], [formatErrors.styles.BOLD, formatErrors.styles.RED]
         );
 
@@ -132,6 +148,44 @@ exports.testStackFormatChaining = function (test) {
             lines[i].should.not.include(formatErrors.styles.RED);
             lines[i].should.not.include(formatErrors.styles.NORMAL);
         }
+        test.done();
+    }
+};
+
+exports.testApplyHighlightStackFormat = function (test) {
+    try {
+        true.should.equal(false);
+    } catch (error) {
+        var formatted = formatErrors.applyHighlightStackFormat(
+            error.stack,
+            [formatErrors.styles.BLUE, formatErrors.styles.BOLD],
+            [formatErrors.styles.BOLD, formatErrors.styles.ITALIC],
+            ["testFormatErrors"]
+        );
+        console.log(formatted);
+        test.done();
+    }
+};
+
+exports.testHighlightStackMessage = function (test) {
+    try {
+        true.should.equal(false);
+    } catch (error) {
+        var formatted = formatErrors.highlightStackMessage(error.stack, [formatErrors.styles.BLUE]);
+        var lines = formatted.split("\n");
+        lines[0].indexOf(formatErrors.styles.BLUE).should.equal(0);
+        lines[0].indexOf(formatErrors.styles.NORMAL).should.equal(lines[0].length - formatErrors.styles.NORMAL.length);
+        formatted = formatErrors.highlightStackMessage(error.stack, [formatErrors.styles.CYAN, formatErrors.styles.BOLD]);
+        lines = formatted.split("\n");
+        lines[0].indexOf(formatErrors.styles.CYAN).should.equal(0);
+        lines[0].indexOf(formatErrors.styles.BOLD).should.equal(formatErrors.styles.CYAN.length);
+        lines[0].indexOf(formatErrors.styles.NORMAL).should.equal(lines[0].length - formatErrors.styles.NORMAL.length);
+        for(var i=1; i<lines.length; i++) {
+            lines[i].should.not.include(formatErrors.styles.CYAN);
+            lines[i].should.not.include(formatErrors.styles.BOLD);
+            lines[i].should.not.include(formatErrors.styles.NORMAL);
+        }
+
         test.done();
     }
 };
