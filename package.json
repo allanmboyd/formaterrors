@@ -6,13 +6,16 @@
     "keywords": "errors, logging, testing, test, log",
     "bugs": { "url" : "http://github.com/allanmboyd/formatErrors/issues" },
     "main": "lib/formatErrors.js",
-    "directories": {"lib": "./lib"},
+    "directories": {
+        "lib": "./lib",
+        "example": "./examples"
+    },
     "repository" : {
         "type": "git",
         "url": "http://github.com/allanmboyd/formatErrors.git"
     },
     "scripts": {
-        "test": "nodeunit test"
+        "test": "nodeunit test/testFormatErrors.js"
     },
     "devDependencies": {
         "should": ">= 0.4.2",
