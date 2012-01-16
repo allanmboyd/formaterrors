@@ -1,4 +1,3 @@
-//var formatErrors = require("../lib/formatErrors");
 var assert = require("assert");
 var loadModule = require("./testHelpers/moduleLoader.js").loadModule;
 var should = require("should");
@@ -287,11 +286,7 @@ exports.testStackLineType = function (test) {
     }
 };
 
-exports.testStackParsing = function (test) {
-    test.done();
-};
-
-exports.testCreateEnhancedError = function (test) {
+exports.testEnhanceError = function (test) {
     assert.throws(function () {
         formatErrorsModule.enhanceError("hello")
     });
@@ -318,7 +313,13 @@ exports.testIsError = function (test) {
 
 exports.testGetMessages = function (test) {
     var messages = formatErrorsModule.getMessages(new Error("message"));
-    // todo - complete this test
+    messages[0].should.equal("Error: message");
+
+    messages = formatErrorsModule.getMessages(new Error("message\nnext line"));
+    messages.length.should.equal(2);
+    messages[0].should.equal("Error: message");
+    messages[1].should.equal("next line");
+
     test.done();
 };
 
@@ -356,33 +357,49 @@ exports.testFormatStack = function (test) {
     lines[1].should.include("    → /Users/aboyd/github/formaterrors/test/testFormatErrors.js");
     lines[10].should.include("    → /Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/types.js:146");
 
-    console.log(formatted.stack);
-    
     test.done();
 };
 
-exports.testFormatAssertionError = function (test) {
-//    var e1, e2;
-//    try {
-//        true.should.equal(false);
-//    } catch (error) {
-//        console.log(util.inspect(error));
-//        e1 = error;
-//    }
-//
-//    try {
-//        assert.equal(true, false);
-//    } catch (error) {
-//        console.log(util.inspect(error));
-//        e2 = error;
-//    }
-//
-//    try {
-//        assert.deepEqual(e1, e2);
-//    } catch (error) {
-//        console.log(util.inspect(error));
-//    }
-//    assert.deepEqual(e1, e2);
-//
+exports.testHighlightAssertionError = function (test) {
+    var theme = new formatErrorsExports.StackTheme();
+    var lines;
+    theme.messageLineHighlights = [formatErrorsExports.styles.BOLD, formatErrorsExports.styles.RED];
+    theme.stackHighlights = [formatErrorsExports.styles.BOLD];
+    theme.stackHighlightPatterns = ["testFormatErrors"];
+
+    try {
+        true.should.equal(false);
+    } catch (error) {
+        error = formatErrorsExports.highlightAssertionError(error, theme);
+        should.not.exist(error.diff);
+        lines = error.stack.split("\n");
+        lines[0].indexOf(formatErrorsExports.styles.BOLD + formatErrorsExports.styles.RED).should.equal(0);
+        lines[0].should.include("AssertionError: expected true to equal false");
+        lines[2].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
+    }
+
+    try {
+        assert.equal("I am the very model of a modern Major-General, I've information vegetable, animal, and mineral, I know the kings of England, and I quote the fights historical, From Marathon to Waterloo, in order categorical.",
+            "I am the very model of a modern Major-General, I've information vegetable, and mineral, I know the kings of England, and I quote the fights historical, From Marathon to Waterloo, in order categorical.");
+    } catch (error) {
+        error = formatErrorsExports.highlightAssertionError(error, theme);
+        should.exist(error.diff);
+        lines = error.stack.split("\n");
+        lines[0].indexOf(formatErrorsExports.styles.BOLD + formatErrorsExports.styles.RED).should.equal(0);
+        lines[0].indexOf("AssertionError").should.equal(9);
+        lines[0].should.include("I am the very model of a modern Major-General");
+        lines[1].should.equal("\u001b[1m\u001b[31mDifferences: 'actual': \"animal, \"\u001b[39m\u001b[22m");
+        lines[2].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
+    }
+
+    try {
+        assert.equal(true, false);
+    } catch (error) {
+        error = formatErrorsExports.highlightAssertionError(error, theme);
+        should.not.exist(error.diff);
+        lines = error.stack.split("\n");
+        lines[0].should.include("AssertionError: true == false");
+        lines[1].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
+    }
     test.done();
 };
