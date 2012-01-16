@@ -17,9 +17,13 @@
     "scripts": {
         "test": "nodeunit test/testFormatErrors.js"
     },
+    "dependencies" : {
+        "googlediff": "0.0.9",
+        "stack-trace": "0.0.6"
+    },
     "devDependencies": {
-        "should": ">= 0.4.2",
-        "nodeunit": ">= 0.6.4"
+        "should": "0.4.2",
+        "nodeunit": "0.6.4"
     },
     "engine": {
         "node": ">= 0.6.6"

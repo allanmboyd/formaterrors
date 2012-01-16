@@ -95,7 +95,7 @@ exports.testMultiLineMessageStackFilter = function (test) {
         formatted = formatErrorsExports.stackFilter(error.stack, filters, false);
         formatted.should.not.equal(error.stack);
         var lines = formatted.split("\n");
-        for(var i=0; i<lines.length; i++) {
+        for (var i = 0; i < lines.length; i++) {
             formatErrorsModule.isMessageLine(lines[i]).should.equal(true);
         }
         test.done();
@@ -208,7 +208,7 @@ exports.testStackFormatChaining = function (test) {
             lines[i].should.not.include("should");
             lines[i].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[i].length - formatErrorsExports.styles.NORMAL.length);
         }
-        for(i=3; i<lines.length; i++) {
+        for (i = 3; i < lines.length; i++) {
             lines[i].should.not.include("should");
             lines[i].should.not.include(formatErrorsExports.styles.BOLD);
             lines[i].should.not.include(formatErrorsExports.styles.RED);
@@ -222,7 +222,7 @@ exports.testApplyHighlightStackFormat = function (test) {
     try {
         true.should.equal(false);
     } catch (error) {
-        var formatted = formatErrorsExports.applyHighlightStackFormat(
+        var formatted = formatErrorsExports.applyStackHighlights(
             error.stack,
             [formatErrorsExports.styles.BLUE, formatErrorsExports.styles.BOLD],
             [formatErrorsExports.styles.BOLD],
@@ -248,7 +248,7 @@ exports.testHighlightStackMessage = function (test) {
         lines[0].indexOf(formatErrorsExports.styles.CYAN).should.equal(0);
         lines[0].indexOf(formatErrorsExports.styles.BOLD).should.equal(formatErrorsExports.styles.CYAN.length);
         lines[0].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[0].length - formatErrorsExports.styles.NORMAL.length);
-        for(var i=1; i<lines.length; i++) {
+        for (var i = 1; i < lines.length; i++) {
             lines[i].should.not.include(formatErrorsExports.styles.CYAN);
             lines[i].should.not.include(formatErrorsExports.styles.BOLD);
             lines[i].should.not.include(formatErrorsExports.styles.NORMAL);
@@ -279,12 +279,86 @@ exports.testStackLineType = function (test) {
         var lines = error.stack.split('\n');
         formatErrorsModule.isStackLine(lines[0]).should.equal(false);
         formatErrorsModule.isMessageLine(lines[0]).should.equal(true);
-        for(var i = 1; i < lines.length; i++) {
+        for (var i = 1; i < lines.length; i++) {
             formatErrorsModule.isStackLine(lines[i]).should.equal(true);
             formatErrorsModule.isMessageLine(lines[i]).should.equal(false);
         }
         test.done();
     }
+};
+
+exports.testStackParsing = function (test) {
+    test.done();
+};
+
+exports.testCreateEnhancedError = function (test) {
+    assert.throws(function () {
+        formatErrorsModule.enhanceError("hello")
+    });
+    assert.doesNotThrow(function () {
+        formatErrorsModule.enhanceError(new Error("message"))
+    });
+    test.done();
+};
+
+exports.testIsError = function (test) {
+    formatErrorsModule.isError(new Error()).should.equal(true);
+    formatErrorsModule.isError(7).should.equal(false);
+    formatErrorsModule.isError("Error").should.equal(false);
+    function EnhancedError() {
+    }
+
+    EnhancedError.prototype = new Error();
+    EnhancedError.prototype.constructor = EnhancedError;
+
+    var e2 = new EnhancedError();
+    formatErrorsModule.isError(e2).should.equal(true);
+    test.done();
+};
+
+exports.testGetMessages = function (test) {
+    var messages = formatErrorsModule.getMessages(new Error("message"));
+    // todo - complete this test
+    test.done();
+};
+
+exports.testStackFormatObject = function (test) {
+    var format = ['typeName', 'functionName', 'methodName', 'fileName', 'lineNumber', 'columnNumber'];
+    var sf = new formatErrorsExports.StackFormat();
+    sf.prefix.should.equal("    at");
+    sf.components.length.should.equal(6);
+    var c = sf.components;
+    format.join().should.equal(c.join());
+
+    test.done();
+};
+
+exports.testFormatStack = function (test) {
+    var error = new Error("a message");
+
+    var formatted = formatErrorsExports.formatStack(error);
+
+    var lines = formatted.stack.split("\n");
+    lines[0].should.equal("Error: a message");
+    lines[1].should.include("    at Object (/Users/aboyd/github/formaterrors/test/testFormatErrors.js");
+    lines[3].should.equal("    at /Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/core.js:233:16");
+    lines[4].should.equal("    at Object.runTest (/Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/core.js:69:9)");
+    lines[10].should.equal("    at Array.0 (/Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/types.js:146:17)");
+
+    var format = new formatErrorsExports.StackFormat();
+
+    format.prefix = "    \u2192";
+    format.components = ["fileName", "lineNumber"];
+    formatted = formatErrorsExports.formatStack(error, format);
+    lines = formatted.stack.split("\n");
+
+    lines[0].should.equal("Error: a message");
+    lines[1].should.include("    → /Users/aboyd/github/formaterrors/test/testFormatErrors.js");
+    lines[10].should.include("    → /Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/types.js:146");
+
+    console.log(formatted.stack);
+    
+    test.done();
 };
 
 exports.testFormatAssertionError = function (test) {
