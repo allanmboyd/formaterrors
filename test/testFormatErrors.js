@@ -106,38 +106,38 @@ exports.testStackHighlight = function (test) {
         throw new Error("an error");
     } catch (error) {
         var patterns = ["testFormatErrors", "nodeunit"];
-        var formatted = formatErrorsExports.stackHighlight(error.stack, patterns, formatErrorsExports.styles.RED);
+        var formatted = formatErrorsExports.stackHighlight(error.stack, patterns, formatErrorsExports.STYLES.RED);
         var lines = formatted.split("\n");
-        lines[0].should.not.include(formatErrorsExports.styles.RED);
-        lines[0].should.not.include(formatErrorsExports.styles.NORMAL);
+        lines[0].should.not.include(formatErrorsExports.STYLES.RED);
+        lines[0].should.not.include(formatErrorsExports.STYLES.NORMAL);
         lines[1].should.include("testFormatErrors");
-        lines[1].indexOf(formatErrorsExports.styles.RED).should.equal(0);
-        lines[1].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[1].length - formatErrorsExports.styles.NORMAL.length);
+        lines[1].indexOf(formatErrorsExports.STYLES.RED).should.equal(0);
+        lines[1].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[1].length - formatErrorsExports.STYLES.NORMAL.length);
         lines[1].should.not.include("undefined");
         for (var i = 2; i < lines.length - 1; i++) {
             lines[i].should.not.include("undefined");
             lines[i].should.include("nodeunit");
-            lines[i].indexOf(formatErrorsExports.styles.RED).should.equal(0);
-            lines[i].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[i].length - formatErrorsExports.styles.NORMAL.length);
+            lines[i].indexOf(formatErrorsExports.STYLES.RED).should.equal(0);
+            lines[i].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[i].length - formatErrorsExports.STYLES.NORMAL.length);
         }
         patterns = ["testFormatErrors"];
         formatted = formatErrorsExports.stackHighlight(error.stack, patterns,
-            [formatErrorsExports.styles.GREEN, formatErrorsExports.styles.BOLD]);
+            [formatErrorsExports.STYLES.GREEN, formatErrorsExports.STYLES.BOLD]);
         lines = formatted.split("\n");
-        lines[0].should.not.include(formatErrorsExports.styles.GREEN);
-        lines[0].should.not.include(formatErrorsExports.styles.BOLD);
-        lines[0].should.not.include(formatErrorsExports.styles.NORMAL);
+        lines[0].should.not.include(formatErrorsExports.STYLES.GREEN);
+        lines[0].should.not.include(formatErrorsExports.STYLES.BOLD);
+        lines[0].should.not.include(formatErrorsExports.STYLES.NORMAL);
         lines[1].should.include("testFormatErrors");
         lines[1].should.not.include("undefined");
-        lines[1].indexOf(formatErrorsExports.styles.GREEN).should.equal(0);
-        lines[1].indexOf(formatErrorsExports.styles.BOLD).should.equal(formatErrorsExports.styles.GREEN.length);
-        lines[1].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[1].length - formatErrorsExports.styles.NORMAL.length);
+        lines[1].indexOf(formatErrorsExports.STYLES.GREEN).should.equal(0);
+        lines[1].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(formatErrorsExports.STYLES.GREEN.length);
+        lines[1].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[1].length - formatErrorsExports.STYLES.NORMAL.length);
         for (i = 2; i < lines.length - 1; i++) {
             lines[i].should.not.include("undefined");
             lines[i].should.include("nodeunit");
-            lines[i].should.not.include(formatErrorsExports.styles.GREEN);
-            lines[i].should.not.include(formatErrorsExports.styles.BOLD);
-            lines[i].should.not.include(formatErrorsExports.styles.NORMAL);
+            lines[i].should.not.include(formatErrorsExports.STYLES.GREEN);
+            lines[i].should.not.include(formatErrorsExports.STYLES.BOLD);
+            lines[i].should.not.include(formatErrorsExports.STYLES.NORMAL);
         }
         test.done();
     }
@@ -148,21 +148,21 @@ exports.testMultiLineMessageStackHighlight = function (test) {
         throw new Error("a multi\nline\nerror\nmessage");
     } catch (error) {
         var patterns = ["testFormatErrors", "nodeunit"];
-        var formatted = formatErrorsExports.stackHighlight(error.stack, patterns, formatErrorsExports.styles.RED);
+        var formatted = formatErrorsExports.stackHighlight(error.stack, patterns, formatErrorsExports.STYLES.RED);
         var lines = formatted.split("\n");
-        lines[0].should.not.include(formatErrorsExports.styles.RED);
-        lines[0].should.not.include(formatErrorsExports.styles.NORMAL);
-        lines[3].should.not.include(formatErrorsExports.styles.RED);
-        lines[3].should.not.include(formatErrorsExports.styles.NORMAL);
+        lines[0].should.not.include(formatErrorsExports.STYLES.RED);
+        lines[0].should.not.include(formatErrorsExports.STYLES.NORMAL);
+        lines[3].should.not.include(formatErrorsExports.STYLES.RED);
+        lines[3].should.not.include(formatErrorsExports.STYLES.NORMAL);
         lines[4].should.include("testFormatErrors");
-        lines[4].indexOf(formatErrorsExports.styles.RED).should.equal(0);
-        lines[4].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[4].length - formatErrorsExports.styles.NORMAL.length);
+        lines[4].indexOf(formatErrorsExports.STYLES.RED).should.equal(0);
+        lines[4].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[4].length - formatErrorsExports.STYLES.NORMAL.length);
         lines[4].should.not.include("undefined");
         for (var i = 5; i < lines.length - 1; i++) {
             lines[i].should.not.include("undefined");
             lines[i].should.include("nodeunit");
-            lines[i].indexOf(formatErrorsExports.styles.RED).should.equal(0);
-            lines[i].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[i].length - formatErrorsExports.styles.NORMAL.length);
+            lines[i].indexOf(formatErrorsExports.STYLES.RED).should.equal(0);
+            lines[i].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[i].length - formatErrorsExports.STYLES.NORMAL.length);
         }
         test.done();
     }
@@ -193,25 +193,25 @@ exports.testStackFormatChaining = function (test) {
     } catch (error) {
         var formatted = formatErrorsExports.stackHighlight(
             formatErrorsExports.stackHighlight(
-                formatErrorsExports.stackRange(error.stack, 2), ["testFormatErrors"], [formatErrorsExports.styles.BOLD], true
-            ), ["Error:"], [formatErrorsExports.styles.BOLD, formatErrorsExports.styles.RED]
+                formatErrorsExports.stackRange(error.stack, 2), ["testFormatErrors"], [formatErrorsExports.STYLES.BOLD], true
+            ), ["Error:"], [formatErrorsExports.STYLES.BOLD, formatErrorsExports.STYLES.RED]
         );
 
         var lines = formatted.split("\n");
-        lines[0].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
-        lines[0].indexOf(formatErrorsExports.styles.RED).should.equal(formatErrorsExports.styles.BOLD.length);
-        lines[0].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[0].length - formatErrorsExports.styles.NORMAL.length);
+        lines[0].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        lines[0].indexOf(formatErrorsExports.STYLES.RED).should.equal(formatErrorsExports.STYLES.BOLD.length);
+        lines[0].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[0].length - formatErrorsExports.STYLES.NORMAL.length);
         for (var i = 1; i < 2; i++) {
-            lines[i].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
-            lines[i].should.not.include(formatErrorsExports.styles.RED);
+            lines[i].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+            lines[i].should.not.include(formatErrorsExports.STYLES.RED);
             lines[i].should.not.include("should");
-            lines[i].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[i].length - formatErrorsExports.styles.NORMAL.length);
+            lines[i].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[i].length - formatErrorsExports.STYLES.NORMAL.length);
         }
         for (i = 3; i < lines.length; i++) {
             lines[i].should.not.include("should");
-            lines[i].should.not.include(formatErrorsExports.styles.BOLD);
-            lines[i].should.not.include(formatErrorsExports.styles.RED);
-            lines[i].should.not.include(formatErrorsExports.styles.NORMAL);
+            lines[i].should.not.include(formatErrorsExports.STYLES.BOLD);
+            lines[i].should.not.include(formatErrorsExports.STYLES.RED);
+            lines[i].should.not.include(formatErrorsExports.STYLES.NORMAL);
         }
         test.done();
     }
@@ -223,8 +223,8 @@ exports.testApplyHighlightStackFormat = function (test) {
     } catch (error) {
         var formatted = formatErrorsExports.applyStackHighlights(
             error.stack,
-            [formatErrorsExports.styles.BLUE, formatErrorsExports.styles.BOLD],
-            [formatErrorsExports.styles.BOLD],
+            [formatErrorsExports.STYLES.BLUE, formatErrorsExports.STYLES.BOLD],
+            [formatErrorsExports.STYLES.BOLD],
             ["testFormatErrors"]
         );
         var lines = formatted.split("\n");
@@ -238,19 +238,19 @@ exports.testHighlightStackMessage = function (test) {
     try {
         true.should.equal(false);
     } catch (error) {
-        var formatted = formatErrorsExports.highlightStackMessage(error.stack, [formatErrorsExports.styles.BLUE]);
+        var formatted = formatErrorsExports.highlightStackMessage(error.stack, [formatErrorsExports.STYLES.BLUE]);
         var lines = formatted.split("\n");
-        lines[0].indexOf(formatErrorsExports.styles.BLUE).should.equal(0);
-        lines[0].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[0].length - formatErrorsExports.styles.NORMAL.length);
-        formatted = formatErrorsExports.highlightStackMessage(error.stack, [formatErrorsExports.styles.CYAN, formatErrorsExports.styles.BOLD]);
+        lines[0].indexOf(formatErrorsExports.STYLES.BLUE).should.equal(0);
+        lines[0].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[0].length - formatErrorsExports.STYLES.NORMAL.length);
+        formatted = formatErrorsExports.highlightStackMessage(error.stack, [formatErrorsExports.STYLES.CYAN, formatErrorsExports.STYLES.BOLD]);
         lines = formatted.split("\n");
-        lines[0].indexOf(formatErrorsExports.styles.CYAN).should.equal(0);
-        lines[0].indexOf(formatErrorsExports.styles.BOLD).should.equal(formatErrorsExports.styles.CYAN.length);
-        lines[0].indexOf(formatErrorsExports.styles.NORMAL).should.equal(lines[0].length - formatErrorsExports.styles.NORMAL.length);
+        lines[0].indexOf(formatErrorsExports.STYLES.CYAN).should.equal(0);
+        lines[0].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(formatErrorsExports.STYLES.CYAN.length);
+        lines[0].indexOf(formatErrorsExports.STYLES.NORMAL).should.equal(lines[0].length - formatErrorsExports.STYLES.NORMAL.length);
         for (var i = 1; i < lines.length; i++) {
-            lines[i].should.not.include(formatErrorsExports.styles.CYAN);
-            lines[i].should.not.include(formatErrorsExports.styles.BOLD);
-            lines[i].should.not.include(formatErrorsExports.styles.NORMAL);
+            lines[i].should.not.include(formatErrorsExports.STYLES.CYAN);
+            lines[i].should.not.include(formatErrorsExports.STYLES.BOLD);
+            lines[i].should.not.include(formatErrorsExports.STYLES.NORMAL);
         }
 
         test.done();
@@ -263,10 +263,10 @@ exports.testBoldMessageBoldModuleStack = function (test) {
     } catch (error) {
         var formatted = formatErrorsExports.boldMessageBoldModuleStack(error.stack, "testFormatErrors");
         var lines = formatted.split("\n");
-        lines[0].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
-        lines[1].should.not.include(formatErrorsExports.styles.BOLD);
-        lines[2].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
-        lines[3].should.not.include(formatErrorsExports.styles.BOLD);
+        lines[0].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        lines[1].should.not.include(formatErrorsExports.STYLES.BOLD);
+        lines[2].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        lines[3].should.not.include(formatErrorsExports.STYLES.BOLD);
         test.done();
     }
 };
@@ -363,8 +363,8 @@ exports.testFormatStack = function (test) {
 exports.testHighlightAssertionError = function (test) {
     var theme = new formatErrorsExports.StackTheme();
     var lines;
-    theme.messageLineHighlights = [formatErrorsExports.styles.BOLD, formatErrorsExports.styles.RED];
-    theme.stackHighlights = [formatErrorsExports.styles.BOLD];
+    theme.messageLineHighlights = [formatErrorsExports.STYLES.BOLD, formatErrorsExports.STYLES.RED];
+    theme.stackHighlights = [formatErrorsExports.STYLES.BOLD];
     theme.stackHighlightPatterns = ["testFormatErrors"];
 
     try {
@@ -373,9 +373,13 @@ exports.testHighlightAssertionError = function (test) {
         error = formatErrorsExports.highlightAssertionError(error, theme);
         should.not.exist(error.diff);
         lines = error.stack.split("\n");
-        lines[0].indexOf(formatErrorsExports.styles.BOLD + formatErrorsExports.styles.RED).should.equal(0);
+        lines[0].indexOf(formatErrorsExports.STYLES.BOLD + formatErrorsExports.STYLES.RED).should.equal(0);
         lines[0].should.include("AssertionError: expected true to equal false");
-        lines[2].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
+        lines[0].should.include(formatErrorsExports.STYLES.NORMAL);
+        lines[2].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        lines[3].should.not.include(formatErrorsExports.STYLES.RED);
+        lines[3].should.not.include(formatErrorsExports.STYLES.BOLD);
+        lines[3].should.not.include(formatErrorsExports.STYLES.NORMAL);
     }
 
     try {
@@ -385,11 +389,11 @@ exports.testHighlightAssertionError = function (test) {
         error = formatErrorsExports.highlightAssertionError(error, theme);
         should.exist(error.diff);
         lines = error.stack.split("\n");
-        lines[0].indexOf(formatErrorsExports.styles.BOLD + formatErrorsExports.styles.RED).should.equal(0);
+        lines[0].indexOf(formatErrorsExports.STYLES.BOLD + formatErrorsExports.STYLES.RED).should.equal(0);
         lines[0].indexOf("AssertionError").should.equal(9);
         lines[0].should.include("I am the very model of a modern Major-General");
         lines[1].should.equal("\u001b[1m\u001b[31mDifferences: 'actual': \"animal, \"\u001b[39m\u001b[22m");
-        lines[2].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
+        lines[2].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
     }
 
     try {
@@ -399,7 +403,7 @@ exports.testHighlightAssertionError = function (test) {
         should.not.exist(error.diff);
         lines = error.stack.split("\n");
         lines[0].should.include("AssertionError: true == false");
-        lines[1].indexOf(formatErrorsExports.styles.BOLD).should.equal(0);
+        lines[1].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
     }
     test.done();
 };

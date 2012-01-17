@@ -1,8 +1,8 @@
 {
-    "name": "formatErrors",
-    "version": "0.0.2",
+    "name": "formaterrors",
+    "version": "0.0.3",
     "author": "Allan Boyd <millionyearsold@gmail.com>",
-    "description": "Utility that provides formatting and highlight options for errors and their stack trace",
+    "description": "API that provides formatting and highlight options for errors and their stack trace",
     "keywords": "errors, logging, testing, test, log",
     "bugs": { "url" : "http://github.com/allanmboyd/formatErrors/issues" },
     "main": "lib/formatErrors.js",
