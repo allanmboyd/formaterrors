@@ -39,7 +39,9 @@ Some examples are available within the *examples* folder. They can be executed a
     
 API Docs
 --------
-[http://github.com/allanmboyd/formaterrors/docs/out/formaterrors.html](https://github.com/allanmboyd/formaterrors/docs/out/formaterrors.html "API Docs")
+
+[Here is the HTML source](https://github.com/allanmboyd/formaterrors/blob/master/docs/out "API Docs")
+of the API docs. These docs needs to be downloaded and opened in a browser.
 
 
 Testing
@@ -48,7 +50,7 @@ Testing
 Tests utilise [nodeunit](https://github.com/caolan/nodeunit). In addition jshint is run against both lib and test
 javascript files.
 
-To run the test:
+To run the tests:
 
     $ npm test
 
