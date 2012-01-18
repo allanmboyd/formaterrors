@@ -1,6 +1,6 @@
 {
     "name": "formaterrors",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "author": "Allan Boyd <millionyearsold@gmail.com>",
     "description": "API that provides formatting and highlight options for errors and their stack trace",
     "keywords": "errors, logging, testing, test, log",

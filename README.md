@@ -50,7 +50,11 @@ Testing
 Tests utilise [nodeunit](https://github.com/caolan/nodeunit). In addition jshint is run against both lib and test
 javascript files.
 
-To run the tests:
+First install the dependencies:
+
+    $ npm link
+
+Then to run the tests:
 
     $ npm test
 

@@ -341,10 +341,10 @@ exports.testFormatStack = function (test) {
 
     var lines = formatted.stack.split("\n");
     lines[0].should.equal("Error: a message");
-    lines[1].should.include("    at Object (/Users/aboyd/github/formaterrors/test/testFormatErrors.js");
-    lines[3].should.equal("    at /Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/core.js:233:16");
-    lines[4].should.equal("    at Object.runTest (/Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/core.js:69:9)");
-    lines[10].should.equal("    at Array.0 (/Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/types.js:146:17)");
+    lines[1].should.include("formaterrors/test/testFormatErrors.js");
+    lines[3].should.include("formaterrors/node_modules/nodeunit/lib/core.js:233:16");
+    lines[4].should.include("formaterrors/node_modules/nodeunit/lib/core.js:69:9)");
+    lines[10].should.include("formaterrors/node_modules/nodeunit/lib/types.js:146:17)");
 
     var format = new formatErrorsExports.StackFormat();
 
@@ -354,8 +354,10 @@ exports.testFormatStack = function (test) {
     lines = formatted.stack.split("\n");
 
     lines[0].should.equal("Error: a message");
-    lines[1].should.include("    → /Users/aboyd/github/formaterrors/test/testFormatErrors.js");
-    lines[10].should.include("    → /Users/aboyd/github/formaterrors/node_modules/nodeunit/lib/types.js:146");
+    lines[1].indexOf("    → ").should.equal(0);
+    lines[1].should.include("testFormatErrors.js");
+    lines[10].indexOf("    → ").should.equal(0);
+    lines[10].should.include("node_modules/nodeunit/lib/types.js:146");
 
     test.done();
 };
