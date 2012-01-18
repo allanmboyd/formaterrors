@@ -10,7 +10,7 @@ parser_in="./lib"
 
 # The location to output the parser data.  This output is a file containing a 
 # json string, and copies of the parsed files.
-parser_out=./docs/parser
+parser_out=/tmp/parser
 
 # The directory to put the html file outputted by the generator
 generator_out=./docs/out
