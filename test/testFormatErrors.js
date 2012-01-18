@@ -288,10 +288,10 @@ exports.testStackLineType = function (test) {
 
 exports.testEnhanceError = function (test) {
     assert.throws(function () {
-        formatErrorsModule.enhanceError("hello")
+        formatErrorsModule.enhanceError("hello");
     });
     assert.doesNotThrow(function () {
-        formatErrorsModule.enhanceError(new Error("message"))
+        formatErrorsModule.enhanceError(new Error("message"));
     });
     test.done();
 };
@@ -370,9 +370,9 @@ exports.testHighlightAssertionError = function (test) {
     try {
         true.should.equal(false);
     } catch (error) {
-        error = formatErrorsExports.highlightAssertionError(error, theme);
-        should.not.exist(error.diff);
-        lines = error.stack.split("\n");
+        var err1 = formatErrorsExports.highlightAssertionError(error, theme);
+        should.not.exist(err1.diff);
+        lines = err1.stack.split("\n");
         lines[0].indexOf(formatErrorsExports.STYLES.BOLD + formatErrorsExports.STYLES.RED).should.equal(0);
         lines[0].should.include("AssertionError: expected true to equal false");
         lines[0].should.include(formatErrorsExports.STYLES.NORMAL);
@@ -386,9 +386,9 @@ exports.testHighlightAssertionError = function (test) {
         assert.equal("I am the very model of a modern Major-General, I've information vegetable, animal, and mineral, I know the kings of England, and I quote the fights historical, From Marathon to Waterloo, in order categorical.",
             "I am the very model of a modern Major-General, I've information vegetable, and mineral, I know the kings of England, and I quote the fights historical, From Marathon to Waterloo, in order categorical.");
     } catch (error) {
-        error = formatErrorsExports.highlightAssertionError(error, theme);
-        should.exist(error.diff);
-        lines = error.stack.split("\n");
+        var err2 = formatErrorsExports.highlightAssertionError(error, theme);
+        should.exist(err2.diff);
+        lines = err2.stack.split("\n");
         lines[0].indexOf(formatErrorsExports.STYLES.BOLD + formatErrorsExports.STYLES.RED).should.equal(0);
         lines[0].indexOf("AssertionError").should.equal(9);
         lines[0].should.include("I am the very model of a modern Major-General");
@@ -399,9 +399,9 @@ exports.testHighlightAssertionError = function (test) {
     try {
         assert.equal(true, false);
     } catch (error) {
-        error = formatErrorsExports.highlightAssertionError(error, theme);
-        should.not.exist(error.diff);
-        lines = error.stack.split("\n");
+        var err3 = formatErrorsExports.highlightAssertionError(error, theme);
+        should.not.exist(err3.diff);
+        lines = err3.stack.split("\n");
         lines[0].should.include("AssertionError: true == false");
         lines[1].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
     }

@@ -15,15 +15,16 @@
         "url": "http://github.com/allanmboyd/formatErrors.git"
     },
     "scripts": {
-        "test": "nodeunit test/testFormatErrors.js"
+        "test": "./node_modules/jshint/bin/hint lib/formatErrors.js test/testFormatErrors.js && ./node_modules/nodeunit/bin/nodeunit test/testFormatErrors.js"
     },
     "dependencies" : {
-        "googlediff": "0.0.9",
+        "diff_match_patch": "0.1.1",
         "stack-trace": "0.0.6"
     },
     "devDependencies": {
-        "should": "0.4.2",
-        "nodeunit": "0.6.4"
+        "jshint": "0.5.6",
+        "nodeunit": "0.6.4",
+        "should": "0.4.2"
     },
     "engine": {
         "node": ">= 0.6.6"

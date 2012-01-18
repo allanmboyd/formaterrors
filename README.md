@@ -11,39 +11,55 @@ exclude available fields.
 The API is quite flexible with a range of methods varying in level with means to specify custom highlights and
 formats.
 
+
 Installation
 ------------
 
-<pre>
-$ npm install formaterrors
-</pre>
+    $ npm install formaterrors
 
-Or include as a dependency within packakage.json and use: npm link.
+Or include as a dependency within packakage.json and use: *npm link*.
+
 
 Usage
 -----
 
-<pre>
-var formatErrors = require("formatErrors");
-</pre>
+    var formatErrors = require("formatErrors");
+
 
 Then invoke the provided APIs on instances of Error or Error.stack as required.
+
+
+Examples
+--------
+
+Some examples are available within the *examples* folder. They can be executed as follows:
+
+    $node examples/<file.js>
+
+    
+API Docs
+--------
+[http://github.com/allanmboyd/formaterrors/docs/out/formaterrors.html](https://github.com/allanmboyd/formaterrors/docs/out/formaterrors.html "API Docs")
+
 
 Testing
 -------
 
-<pre>
-$ npm test
-</pre>
+Tests utilise [nodeunit](https://github.com/caolan/nodeunit). In addition jshint is run against both lib and test
+javascript files.
+
+To run the test:
+
+    $ npm test
+
 
 Known Issues
 ------------
 
-<ul>
-<li>Changing the stack line prefix and subsequently applying stack highlights or theme is not likely to produce the
- desired result because the stack prefix is key to differentiating between the message and the stack lines parts of
- the error stack.
-</li>
-</ul>
+
+  * Changing the stack line prefix and subsequently applying stack highlights or theme is not likely to produce the
+    desired result because the stack prefix is key to differentiating between the message and the stack lines parts of
+    the error stack.
+
 
 
