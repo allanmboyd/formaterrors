@@ -23,7 +23,7 @@ Or include as a dependency within packakage.json and use: *npm link*.
 Usage
 -----
 
-    var formatErrors = require("formatErrors");
+    var formatErrors = require("formaterrors");
 
 
 Then invoke the provided APIs on instances of Error or Error.stack as required.
