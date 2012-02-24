@@ -11,6 +11,69 @@ exclude available fields.
 The API is quite flexible with a range of methods varying in level with means to specify custom highlights and
 formats.
 
+Styles
+------
+
+The following list of styles for stack lines and error messages are supported. These styles can be combined in some
+circumstances for example BOLD and RED to produce a bold red highlight:
+
+    * RED
+    * GREEN
+    * YELLOW
+    * BLUE
+    * PURPLE
+    * CYAN
+    * BOLD
+    * NORMAL
+
+Styles are specified using the STYLES constant e.g:
+
+    var formatErrors = require("formaterrors");
+    var bold = formatErrors.STYLES.BOLD;
+    var red = formatErrors.STYLES.RED;
+
+
+StackThemes
+-----------
+
+A StackTheme is the name given to the type of object that can be applied to an Error or Error.stack to
+produce different highlighting and filtering of stack lines.
+
+The following example creates a StackTheme that when applied highlights the message part of an Error or Error.stack
+in bold red and highlights stack lines that include the word 'formatAndTheme' in bold. In addition a stack line range is
+included that will cause all but the first 5 stack lines to be removed.
+
+    var formatErrors = require("formaterrors");
+    var theme = new formatErrors.StackTheme();
+    theme.messageLineHighlights = [formatErrors.STYLES.BOLD, formatErrors.STYLES.RED];
+    theme.stackHighlights = [formatErrors.STYLES.BOLD];
+    theme.stackHighlightPatterns = ["formatAndTheme"];
+    theme.stackRange.depth = 5;
+
+
+StackFormats
+------------
+
+A StackFormat is a type of object that describes the fields to include in each line of an error stack trace. In addition
+the stack line prefix (i.e. normally this is '    at') can be set. The available stack line fields are:
+
+    * typeName
+    * functionName
+    * methodName
+    * fileName
+    * lineNumber
+    * columnNumber
+
+By default all fields are included.
+
+The following example creates a StackFormat that only provides fileName, lineNumber and columnNumber stack line fields
+with a prefix of "    -".
+
+    var formatErrors = require("formaterrors");
+    var format = new formatErrors.StackFormat();
+    format.components = ["fileName", "lineNumber", "columnNumber"];
+    format.prefix = "    -"
+
 
 Installation
 ------------
@@ -26,11 +89,18 @@ Usage
     var formatErrors = require("formaterrors");
 
 
-Then invoke the provided APIs on instances of Error or Error.stack as required.
+Then invoke the provided APIs on instances of Error or Error.stack as required. Some examples are shown below.
 
 
 Examples
 --------
+
+1. Highlight in bold the message and stacklines that include the module name of an error:
+
+    var formaterrors = require("formaterrors");
+    var error = new Error("the error message");
+    var error = formatErrorsExports.boldError(error, "testFormatErrors");
+    console.log(error.stack);
 
 1. Highlight an assertion error using bold for the stacklines containing some pattern - say the name of a module. Also,
 if the assertion message is long then the diff of the expected and actual are provided along with the expected and
@@ -43,28 +113,28 @@ actual values:
         stackTheme.stackHighlightPatterns = ["testDocit"];
         throw formaterrors.highlightAssertionError(error, stackTheme);
 
-2. Only show stack lines that include a specified value or values:
+2. From a stack trace, only show stack lines that include a specified value or values:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
         var filteredStack = formatErrors.stackFilter(error.stack, ["stackPatternFilter", "Object"]);
         console.log(filteredStack);
 
-3. Only show stack lines that do not include a specified value or values:
+3. From a stack trace, only show stack lines that do not include a specified value or values:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
         var filteredStack = formatErrors.stackFilter(error.stack, ["stackPatternFilter", "Object"], false);
         console.log(filteredStack);
 
-4. Only include the first 2 stack lines:
+4. From a stack trace, only include the first 2 stack lines:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
         var rangedStack = formatErrors.stackRange(error.stack, 0, 2);
         console.log(rangedStack);
 
-5. Include all but the first 2 stack lines:
+5. From a stack trace, Include all but the first 2 stack lines:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
@@ -79,6 +149,20 @@ Some examples are available within the *examples* folder. They can be executed a
     
 API Docs
 --------
+formaterrors
+============
+
+An API that provides various options for formatting and highlighting Errors. May be useful for logging and test
+frameworks for example.
+
+Stack lines can be filtered in and out based on patterns and limited by range (e.g. lines 2 through 10). Stack lines
+and error message can have highlights applied based on patterns. Finally stack lines can be formatted to include or
+exclude available fields.
+
+The API is quite flexible with a range of methods varying in level with means to specify custom highlights and
+formats.
+
+*Requires:* diffMatchPatch, stack-trace
 
 Types
 -----
@@ -97,6 +181,47 @@ An object that may be used to define a theme for a a set operations (transformat
 
 Some provided styles for stackHighlight. These may be overridden or alternatives may be used as required.
 
+boldError
+---------
+
+###exports.boldError = function (error, moduleName)###
+
+Convenience method that styles an Error so that the message is bold. If a module name is also provided
+then all stack lines containing that module name are also bold styled.
+
+####Parameters####
+
+* error *Error* the Error
+* moduleName *String* optional module name or pattern whose matched StackLines are to be styled bold
+
+####Returns####
+
+the AssertionError styled bold
+* * *
+
+
+highlightError
+--------------
+
+###exports.highlightError = function (error, stackTheme, stackFormat)###
+
+Apply a StackTheme and an optional StackFormat to an error and return the result.
+
+If the given error is an AssertionError with a long actual / expected then the diff of the actual / expected will
+also be provided and added to the message part of the error.
+
+####Parameters####
+
+* error *Error* an Error to style
+* stackTheme *StackTheme* the theme for the error
+* stackFormat *StackFormat* optional StackFormat to apply formatting to the stack lines
+
+####Returns####
+
+*Error* the given Error with stack themed and formatted as required
+* * *
+
+
 formatStack
 -----------
 
@@ -113,23 +238,6 @@ Format the stack part (i.e. the stack lines not the message part in the stack) a
 ####Returns####
 
 *Error* the given error with its stack modified according to the given StackFormat
-* * *
-
-
-highlightAssertionError
------------------------
-
-###exports.highlightAssertionError = function (assertionError, stackTheme)###
-
-
-####Parameters####
-
-* assertionError *AssertionError* an AssertionError
-* stackTheme *StackTheme* the theme for the error
-
-####Returns####
-
-*Error* the given assertionError with stack hightlighted according to the StackTheme specification
 * * *
 
 
@@ -311,6 +419,7 @@ stack
 filters provided and the inclusive parameter.
 * * *
 
+
 Testing
 -------
 
@@ -326,9 +435,21 @@ Then to run the tests:
     $ npm test
 
 
-Known Issues
+Contributing
 ------------
 
+Contributions are welcome. Please create tests for any updates and ensure jshint is run on any new files. Currently
+npm test will run jshint on all lib and test javascript as well as running all the tests.
+
+
+Bugs & Feature Suggestions
+--------------------------
+
+https://github.com/allanmboyd/formaterrors/issues
+
+
+Known Limitations
+-----------------
 
   * Changing the stack line prefix and subsequently applying stack highlights or theme is not likely to produce the
     desired result because the stack prefix is key to differentiating between the message and the stack lines parts of

@@ -19,6 +19,6 @@ try {
     console.log(error.stack);
     console.log("\n");
     console.log(formatErrors.STYLES.BOLD + "Filename and position with some bold and red..." + formatErrors.STYLES.NORMAL);
-    error = formatErrors.highlightAssertionError(formatErrors.formatStack(error, format), theme);
+    error = formatErrors.highlightError(formatErrors.formatStack(error, format), theme);
     console.log(error.stack);
 }

@@ -271,6 +271,33 @@ exports.testBoldMessageBoldModuleStack = function (test) {
     }
 };
 
+exports.testBoldError = function (test) {
+    try {
+        true.should.equal(false);
+    } catch (error) {
+        var formatted = formatErrorsExports.boldError(error, "testFormatErrors");
+        var lines = formatted.stack.split("\n");
+        lines[0].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        lines[1].should.not.include(formatErrorsExports.STYLES.BOLD);
+        lines[2].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        lines[3].should.not.include(formatErrorsExports.STYLES.BOLD);
+    }
+
+
+    try {
+        true.should.equal(false);
+    } catch (error) {
+        var noModule = formatErrorsExports.boldError(error);
+        var noModuleLines = noModule.stack.split("\n");
+        noModuleLines[0].indexOf(formatErrorsExports.STYLES.BOLD).should.equal(0);
+        noModuleLines[1].should.not.include(formatErrorsExports.STYLES.BOLD);
+        noModuleLines[2].should.not.include(formatErrorsExports.STYLES.BOLD);
+    }
+    
+    test.done();
+
+};
+
 exports.testStackLineType = function (test) {
     try {
         true.should.equal(false);
@@ -362,7 +389,7 @@ exports.testFormatStack = function (test) {
     test.done();
 };
 
-exports.testHighlightAssertionError = function (test) {
+exports.testHighlightError = function (test) {
     var theme = new formatErrorsExports.StackTheme();
     var lines;
     theme.messageLineHighlights = [formatErrorsExports.STYLES.BOLD, formatErrorsExports.STYLES.RED];
@@ -372,7 +399,7 @@ exports.testHighlightAssertionError = function (test) {
     try {
         true.should.equal(false);
     } catch (error) {
-        var err1 = formatErrorsExports.highlightAssertionError(error, theme);
+        var err1 = formatErrorsExports.highlightError(error, theme);
         should.not.exist(err1.diff);
         lines = err1.stack.split("\n");
         lines[0].indexOf(formatErrorsExports.STYLES.BOLD + formatErrorsExports.STYLES.RED).should.equal(0);
@@ -388,7 +415,7 @@ exports.testHighlightAssertionError = function (test) {
         assert.equal("I am the very model of a modern Major-General, I've information vegetable, animal, and mineral, I know the kings of England, and I quote the fights historical, From Marathon to Waterloo, in order categorical.",
             "I am the very model of a modern Major-General, I've information vegetable, and mineral, I know the kings of England, and I quote the fights historical, From Marathon to Waterloo, in order categorical.");
     } catch (error) {
-        var err2 = formatErrorsExports.highlightAssertionError(error, theme);
+        var err2 = formatErrorsExports.highlightError(error, theme);
         should.exist(err2.diff);
         lines = err2.stack.split("\n");
         lines[0].indexOf(formatErrorsExports.STYLES.BOLD + formatErrorsExports.STYLES.RED).should.equal(0);
@@ -401,7 +428,7 @@ exports.testHighlightAssertionError = function (test) {
     try {
         assert.equal(true, false);
     } catch (error) {
-        var err3 = formatErrorsExports.highlightAssertionError(error, theme);
+        var err3 = formatErrorsExports.highlightError(error, theme);
         should.not.exist(err3.diff);
         lines = err3.stack.split("\n");
         lines[0].should.include("AssertionError: ");
