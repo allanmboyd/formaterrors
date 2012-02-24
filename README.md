@@ -97,12 +97,12 @@ Examples
 
 1. Highlight in bold the message and stacklines that include the module name of an error:
 
-    var formaterrors = require("formaterrors");
-    var error = new Error("the error message");
-    var error = formatErrorsExports.boldError(error, "testFormatErrors");
-    console.log(error.stack);
+        var formaterrors = require("formaterrors");
+        var error = new Error("the error message");
+        var error = formatErrorsExports.boldError(error, "testFormatErrors");
+        console.log(error.stack);
 
-1. Highlight an assertion error using bold for the stacklines containing some pattern - say the name of a module. Also,
+2. Highlight an assertion error using bold for the stacklines containing some pattern - say the name of a module. Also,
 if the assertion message is long then the diff of the expected and actual are provided along with the expected and
 actual values:
 
@@ -113,28 +113,28 @@ actual values:
         stackTheme.stackHighlightPatterns = ["testDocit"];
         throw formaterrors.highlightAssertionError(error, stackTheme);
 
-2. From a stack trace, only show stack lines that include a specified value or values:
+3. From a stack trace, only show stack lines that include a specified value or values:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
         var filteredStack = formatErrors.stackFilter(error.stack, ["stackPatternFilter", "Object"]);
         console.log(filteredStack);
 
-3. From a stack trace, only show stack lines that do not include a specified value or values:
+4. From a stack trace, only show stack lines that do not include a specified value or values:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
         var filteredStack = formatErrors.stackFilter(error.stack, ["stackPatternFilter", "Object"], false);
         console.log(filteredStack);
 
-4. From a stack trace, only include the first 2 stack lines:
+5. From a stack trace, only include the first 2 stack lines:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
         var rangedStack = formatErrors.stackRange(error.stack, 0, 2);
         console.log(rangedStack);
 
-5. From a stack trace, Include all but the first 2 stack lines:
+6. From a stack trace, Include all but the first 2 stack lines:
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
@@ -149,20 +149,6 @@ Some examples are available within the *examples* folder. They can be executed a
     
 API Docs
 --------
-formaterrors
-============
-
-An API that provides various options for formatting and highlighting Errors. May be useful for logging and test
-frameworks for example.
-
-Stack lines can be filtered in and out based on patterns and limited by range (e.g. lines 2 through 10). Stack lines
-and error message can have highlights applied based on patterns. Finally stack lines can be formatted to include or
-exclude available fields.
-
-The API is quite flexible with a range of methods varying in level with means to specify custom highlights and
-formats.
-
-*Requires:* diffMatchPatch, stack-trace
 
 Types
 -----
@@ -196,7 +182,7 @@ then all stack lines containing that module name are also bold styled.
 
 ####Returns####
 
-the AssertionError styled bold
+the Error styled bold
 * * *
 
 
