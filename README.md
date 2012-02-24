@@ -97,7 +97,7 @@ Examples
 
 1. Highlight in bold the message and stacklines that include the module name of an error:
 
-        var formaterrors = require("formaterrors");
+        var formatErrors = require("formaterrors");
         var error = new Error("the error message");
         var error = formatErrors.boldError(error, "testFormatErrors");
         console.log(error.stack);
@@ -106,37 +106,37 @@ Examples
 if the assertion message is long then the diff of the expected and actual are provided along with the expected and
 actual values:
 
-        var formaterrors = require("formaterrors");
-        var stackTheme = new formaterrors.StackTheme();
-        stackTheme.messageLineHighlights = [formaterrors.STYLES.BOLD];
-        stackTheme.stackHighlights = [formaterrors.STYLES.BOLD];
+        var formatErrors = require("formaterrors");
+        var stackTheme = new formatErrors.StackTheme();
+        stackTheme.messageLineHighlights = [formatErrors.STYLES.BOLD];
+        stackTheme.stackHighlights = [formatErrors.STYLES.BOLD];
         stackTheme.stackHighlightPatterns = ["testDocit"];
-        throw formaterrors.highlightError(error, stackTheme);
+        throw formatErrors.highlightError(error, stackTheme);
 
 3. From a stack trace, only show stack lines that include a specified value or values:
 
-        var formaterrors = require("formaterrors");
+        var formatErrors = require("formaterrors");
         var error = new Error("the error message");
         var filteredStack = formatErrors.stackFilter(error.stack, ["stackPatternFilter", "Object"]);
         console.log(filteredStack);
 
 4. From a stack trace, only show stack lines that do not include a specified value or values:
 
-        var formaterrors = require("formaterrors");
+        var formatErrors = require("formaterrors");
         var error = new Error("the error message");
         var filteredStack = formatErrors.stackFilter(error.stack, ["stackPatternFilter", "Object"], false);
         console.log(filteredStack);
 
 5. From a stack trace, only include the first 2 stack lines:
 
-        var formaterrors = require("formaterrors");
+        var formatErrors = require("formaterrors");
         var error = new Error("the error message");
         var rangedStack = formatErrors.stackRange(error.stack, 0, 2);
         console.log(rangedStack);
 
 6. From a stack trace, Include all but the first 2 stack lines:
 
-        var formaterrors = require("formaterrors");
+        var formatErrors = require("formaterrors");
         var error = new Error("the error message");
         var rangedStack = formatErrors.stackRange(error.stack, 2);
         console.log(rangedStack);
