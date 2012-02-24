@@ -99,10 +99,10 @@ Examples
 
         var formaterrors = require("formaterrors");
         var error = new Error("the error message");
-        var error = formatErrorsExports.boldError(error, "testFormatErrors");
+        var error = formatErrors.boldError(error, "testFormatErrors");
         console.log(error.stack);
 
-2. Highlight an assertion error using bold for the stacklines containing some pattern - say the name of a module. Also,
+2. Highlight an error using bold for the stacklines containing some pattern - say the name of a module. Also,
 if the assertion message is long then the diff of the expected and actual are provided along with the expected and
 actual values:
 
@@ -111,7 +111,7 @@ actual values:
         stackTheme.messageLineHighlights = [formaterrors.STYLES.BOLD];
         stackTheme.stackHighlights = [formaterrors.STYLES.BOLD];
         stackTheme.stackHighlightPatterns = ["testDocit"];
-        throw formaterrors.highlightAssertionError(error, stackTheme);
+        throw formaterrors.highlightError(error, stackTheme);
 
 3. From a stack trace, only show stack lines that include a specified value or values:
 
