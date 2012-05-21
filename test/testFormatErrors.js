@@ -369,7 +369,7 @@ exports.testFormatStack = function (test) {
     var lines = formatted.stack.split("\n");
     lines[0].should.equal("Error: a message");
     lines[1].should.include("test/testFormatErrors.js");
-    lines[3].should.include("node_modules/nodeunit/lib/core.js:233:16");
+    lines[3].should.include("node_modules/nodeunit/lib/core.js:235:16");
     lines[4].should.include("node_modules/nodeunit/lib/core.js:69:9)");
     lines[10].should.include("node_modules/nodeunit/lib/types.js:146:17)");
 

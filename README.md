@@ -5,7 +5,7 @@ An API that provides various options for formatting and highlighting Errors. May
 frameworks for example.
 
 Stack lines can be filtered in and out based on patterns and limited by range (e.g. lines 2 through 10). Stack lines
-and error message can have highlights applied based on patterns. Finally stack lines can be formatted to include or
+and error message can have highlights applied based on patterns. Finally, stack lines can be formatted to include or
 exclude available fields.
 
 The API is quite flexible with a range of methods varying in level with means to specify custom highlights and
@@ -39,6 +39,39 @@ StackThemes
 A StackTheme is the name given to the type of object that can be applied to an Error or Error.stack to
 produce different highlighting and filtering of stack lines.
 
+StackTheme includes the following attributes:
+
+    * __messageLineHighlights__: {String []} specifies the highlights to apply to the message part of the error.
+    Any highlights specified are prefixed to the message part of the error. A Styles.NORMAL is appended to the message
+    part automatically to clear any prefixed Styles.
+
+    * __stackHighlights__: {String []} specifies the highlights to apply to the stack part of the error.
+    Any highlights specified are prefixed to the stack part of the error. A Styles.NORMAL is appended to the stack
+    part automatically to clear any prefixed Styles. Note that _stackHighlights_ must be used in conjunction with
+    _stackHighlightPattern_ and/or _highlightInclusive_ for the highlights to be applied.
+
+    * __stackHighlightPattern__: {String} regular expression string used to filter the stack lines against which to
+    apply specified _stackHighlights_. By default only those stack lines matching the given expression will
+    be highlighted. __If not specified then no stack line is highlighted__ unless _highlightInclusive_ is set to false.
+
+    * __highlightInclusive__: {Boolean} convenience property that effectively allows the highlight pattern to be
+    reversed. If set to _true_ (the default) all stack lines matching the _stackHighlightPattern_ will be highlighted
+    according to _stackHighlights_. If set to _false_ then only those lines that do not match the
+    _stackHighlightPattern_ are highlighted.
+
+    * __stackFilters__: {String []} an array of regular expression strings used to filter the stack lines of the error.
+    By default any stack line matching any listed regular expression is included in the set of stack lines and those
+    that do not match are excluded. If not specified then all stack lines are included.
+
+    * __filterInclusive__: {Boolean} convenience property that effectively allows the stack filter pattern to be
+    reversed. If set to _true_ (the default) all stack lines matching one or more _stackFilters_ will be included.
+    If set to _false_ then only those lines that do not match any _stackFilters_ are included.
+
+    * __stackRange.start__: {Number} the first stack line to included (default: 0)
+
+    * __stackRange.depth__: {Number} the number of lines including the start line to include in the
+    stack. By default _stackRange.depth_ is undefined indicating that there is no limit to the stack depth
+
 The following example creates a StackTheme that when applied highlights the message part of an Error or Error.stack
 in bold red and highlights stack lines that include the word 'formatAndTheme' in bold. In addition a stack line range is
 included that will cause all but the first 5 stack lines to be removed.
@@ -55,16 +88,20 @@ StackFormats
 ------------
 
 A StackFormat is a type of object that describes the fields to include in each line of an error stack trace. In addition
-the stack line prefix (i.e. normally this is '    at') can be set. The available stack line fields are:
+the stack line prefix (i.e. normally this is '    at') can be set.
 
-    * typeName
-    * functionName
-    * methodName
-    * fileName
-    * lineNumber
-    * columnNumber
+StackFormat attributes are as follows:
 
-By default all fields are included.
+    * __prefix__: {String} prefix to set on each listed stack line. Default: '    at'
+
+    * __components__: {String []} array of strings listing the names of the components to include in the stack line. By
+    default all stack line components are included. Valid components include:
+        * typeName
+        * functionName
+        * methodName
+        * fileName
+        * lineNumber
+        * columnNumber
 
 The following example creates a StackFormat that only provides fileName, lineNumber and columnNumber stack line fields
 with a prefix of "    -".
@@ -141,6 +178,13 @@ actual values:
         var rangedStack = formatErrors.stackRange(error.stack, 2);
         console.log(rangedStack);
 
+7. Set up prefixes for message and stack lines using highlights and apply them when logging an error:
+
+        var failTheme = new formatErrors.StackTheme();
+        failTheme.messageLineHighlights = ["        "];
+        failTheme.stackHighlights = ["      "];
+        var failError = formatErrors.highlightError(error, failTheme);
+        console.log(failError.stack);
 
 Some examples are available within the *examples* folder. They can be executed as follows:
 
