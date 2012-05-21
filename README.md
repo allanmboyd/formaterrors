@@ -41,36 +41,36 @@ produce different highlighting and filtering of stack lines.
 
 StackTheme includes the following attributes:
 
-    * __messageLineHighlights__: {String []} specifies the highlights to apply to the message part of the error.
-    Any highlights specified are prefixed to the message part of the error. A Styles.NORMAL is appended to the message
-    part automatically to clear any prefixed Styles.
+* __messageLineHighlights__: {String []} specifies the highlights to apply to the message part of the error.
+Any highlights specified are prefixed to the message part of the error. A Styles.NORMAL is appended to the message
+part automatically to clear any prefixed Styles.
 
-    * __stackHighlights__: {String []} specifies the highlights to apply to the stack part of the error.
-    Any highlights specified are prefixed to the stack part of the error. A Styles.NORMAL is appended to the stack
-    part automatically to clear any prefixed Styles. Note that _stackHighlights_ must be used in conjunction with
-    _stackHighlightPattern_ and/or _highlightInclusive_ for the highlights to be applied.
+* __stackHighlights__: {String []} specifies the highlights to apply to the stack part of the error.
+Any highlights specified are prefixed to the stack part of the error. A Styles.NORMAL is appended to the stack
+part automatically to clear any prefixed Styles. Note that _stackHighlights_ must be used in conjunction with
+_stackHighlightPattern_ and/or _highlightInclusive_ for the highlights to be applied.
 
-    * __stackHighlightPattern__: {String} regular expression string used to filter the stack lines against which to
-    apply specified _stackHighlights_. By default only those stack lines matching the given expression will
-    be highlighted. __If not specified then no stack line is highlighted__ unless _highlightInclusive_ is set to false.
+* __stackHighlightPattern__: {String} regular expression string used to filter the stack lines against which to
+apply specified _stackHighlights_. By default only those stack lines matching the given expression will
+be highlighted. __If not specified then no stack line is highlighted__ unless _highlightInclusive_ is set to false.
 
-    * __highlightInclusive__: {Boolean} convenience property that effectively allows the highlight pattern to be
-    reversed. If set to _true_ (the default) all stack lines matching the _stackHighlightPattern_ will be highlighted
-    according to _stackHighlights_. If set to _false_ then only those lines that do not match the
-    _stackHighlightPattern_ are highlighted.
+* __highlightInclusive__: {Boolean} convenience property that effectively allows the highlight pattern to be
+reversed. If set to _true_ (the default) all stack lines matching the _stackHighlightPattern_ will be highlighted
+according to _stackHighlights_. If set to _false_ then only those lines that do not match the
+_stackHighlightPattern_ are highlighted.
 
-    * __stackFilters__: {String []} an array of regular expression strings used to filter the stack lines of the error.
-    By default any stack line matching any listed regular expression is included in the set of stack lines and those
-    that do not match are excluded. If not specified then all stack lines are included.
+* __stackFilters__: {String []} an array of regular expression strings used to filter the stack lines of the error.
+By default any stack line matching any listed regular expression is included in the set of stack lines and those
+that do not match are excluded. If not specified then all stack lines are included.
 
-    * __filterInclusive__: {Boolean} convenience property that effectively allows the stack filter pattern to be
-    reversed. If set to _true_ (the default) all stack lines matching one or more _stackFilters_ will be included.
-    If set to _false_ then only those lines that do not match any _stackFilters_ are included.
+* __filterInclusive__: {Boolean} convenience property that effectively allows the stack filter pattern to be
+reversed. If set to _true_ (the default) all stack lines matching one or more _stackFilters_ will be included.
+If set to _false_ then only those lines that do not match any _stackFilters_ are included.
 
-    * __stackRange.start__: {Number} the first stack line to included (default: 0)
+* __stackRange.start__: {Number} the first stack line to included (default: 0)
 
-    * __stackRange.depth__: {Number} the number of lines including the start line to include in the
-    stack. By default _stackRange.depth_ is undefined indicating that there is no limit to the stack depth
+* __stackRange.depth__: {Number} the number of lines including the start line to include in the
+stack. By default _stackRange.depth_ is undefined indicating that there is no limit to the stack depth
 
 The following example creates a StackTheme that when applied highlights the message part of an Error or Error.stack
 in bold red and highlights stack lines that include the word 'formatAndTheme' in bold. In addition a stack line range is
@@ -92,16 +92,11 @@ the stack line prefix (i.e. normally this is '    at') can be set.
 
 StackFormat attributes are as follows:
 
-    * __prefix__: {String} prefix to set on each listed stack line. Default: '    at'
+* __prefix__: {String} prefix to set on each listed stack line. Default: '    at'
 
-    * __components__: {String []} array of strings listing the names of the components to include in the stack line. By
-    default all stack line components are included. Valid components include:
-        * typeName
-        * functionName
-        * methodName
-        * fileName
-        * lineNumber
-        * columnNumber
+* __components__: {String []} array of strings listing the names of the components to include in the stack line. By
+default all stack line components are included. Valid components include: _typeName_, _functionName_, _methodName_,
+_fileName_, _lineNumber, _columnNumber_
 
 The following example creates a StackFormat that only provides fileName, lineNumber and columnNumber stack line fields
 with a prefix of "    -".
